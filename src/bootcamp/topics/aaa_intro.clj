@@ -1,5 +1,7 @@
 (ns bootcamp.topics.aaa-intro)
 
+(when true "Congratulations, everything seems to work and you're ready for the training!")
+
 ;;
 ;; Personal introductions
 ;; Expectations

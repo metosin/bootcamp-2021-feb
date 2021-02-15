@@ -1,36 +1,114 @@
 # bootcamp-tasks
 
-FIXME: description
+A project containing bootcamp lessons and exercises
 
-## Installation
+## Getting started
 
-Download from http://example.com/FIXME.
+### Prerequisites
 
-## Usage
+You need:
 
-FIXME: explanation
+* Laptop with Linux, Mac OS X, or recent Windows
 
-    $ java -jar bootcamp-tasks-0.1.0-standalone.jar [args]
+Note, if you have Linux or Mac, you can install these using your package
+manager. In case of Mac, use [Homebrew](http://brew.sh).
 
-## Options
+* JDK 1.8 _(or later)_: https://www.azul.com/downloads/zulu-community/?package=jdk
+* Leiningen 2.5.0 _(or later)_: http://leiningen.org
+* git: http://git-scm.com/book/en/v2/Getting-Started-Installing-Git
+* github account: https://github.com/join
+* IDE with Clojure support (more details below)
 
-FIXME: listing of options this app accepts.
+### Check that everything works
 
-## Examples
+Run `lein nightlight` in the project's root folder. You should see something like this:
+![](doc/img/nightlight-start.png)
 
-...
+Open your browser and navigate to `localhost:4000`. You should see the Nightlight editor environment.
 
-### Bugs
+Open the Clojure REPL tab on the right, and type `(+ 1 1)` into the REPL. You should get a result.
 
-...
+![](doc/img/repl.png)
 
-### Any Other Sections
-### That You Think
-### Might be Useful
+From the right side menu, navigate to src/bootcamp/topics/aaa_intro.clj. Click on InstaREPL at the top of the editor.
+You should see something like this:
+
+![](doc/img/instarepl.png)
+
+You may continue with setting up your IDE if you wish, but only Nightlight is required for the first part of training.
+
+## Setup your IDE
+
+### General
+
+The development process for Clojure is radically different from Java
+development process. Likewise, the features that you'll want from your
+IDE are also different.
+
+The important features that you should look for in Clojure IDE are:
+
+* REPL, the IDE should allow access to project REPL
+* Evaluating from source, you should be able to select part of source
+  code and send it to REPL for evaluation
+  
+The [State of Clojure survey for 2020](https://clojure.org/news/2020/02/20/state-of-clojure-2020#_deep_dives)
+found the most popular editors to be Emacs+Cider and IDEA+Cursive. If you're familiar with Emacs (or vim),
+you can use those. If not, consider IDEA+Cursive, or VS Code+Calva if you want a free and open source editor environment.
+
+### IntelliJ IDEA with Cursive
+
+IDEA has two Clojure plugins, the old La Clojure and the new and
+shiny Cursive. Follow the instructions for installing Cursive in
+here https://cursiveclojure.com/userguide/
+
+Import the project as described in this page
+https://cursiveclojure.com/userguide/leiningen.html
+
+### Visual Studio Code with Calva
+
+Microsoft Visual Studio Code has [Calva][calva] plugin for Clojure code.  The
+plugin can be installed through the Visual Studio Marketplace (just click the
+"Extensions" icon and search for "Calva"). Once installed you can open a
+Clojure project as follows:
+
+- Close existing workspace if you have one open.
+
+- Open the project folder through `File` -> `Add Folder to Workspace`.
+- Open a new terminal `Terminal` -> `New Terminal` which should open into the
+  project root.
+
+- Start nREPL with `lein repl`
+
+- Open a `.clj` file (in our example case the file
+  `src/clj/setup/server.clj`). You should observe a bright "nREPL⚡" icon
+  (located in the bottom left footer area) indicating a live nREPL
+  connection. In case there is no active connection you can try to connect
+  manually:
+
+    - Go to the terminal and note the nREPL port from the first line of the
+      process output.
+
+    - Start connecting by pressing `Ctrl+Alt+v` `c` and supply the (host and)
+      port when/if asked for it.
+
+- See Calva's [Github page][calva-github] for information about how to use the
+  plugin.
+
+[calva]: https://marketplace.visualstudio.com/items?itemName=cospaia.clojure4vscode
+[calva-github]: https://github.com/BetterThanTomorrow/calva
+
+### Vim
+
+See https://gist.github.com/Deraen/da73db508e75eb4aad71 for list of few
+useful plugins and settings.
+
+### Emacs
+
+See https://github.com/clojure-emacs/cider
 
 ## License
 
-Copyright © 2021 FIXME
+Copyright © 2021 Metosin
 
 This program and the accompanying materials are made available under the
 terms of the Eclipse Public License 2.0 which is available at
