@@ -21,7 +21,7 @@
       a (nth v 0)
       b (nth v 1)
       c (nth v 2)]
-  (+ a b c))                                                ;=> 6
+  (+ a b c)) ;=> 6
 
 ; Now replace symbol v with destructuring:
 
@@ -36,23 +36,23 @@
 ; Extra elements are ignored
 
 (let [[a b c] [1 2 3 4 5 6 7]]
-  (+ a b c))                                                ;=> 6
+  (+ a b c)) ;=> 6
 
 ; Missing elements are set to nil
 
 (let [[a b c] [1 2]]
-  [a b c])                                                  ;=> [1 2 nil]
+  [a b c]) ;=> [1 2 nil]
 
 ; Var-args work too:
 
 (let [[a b & more] [1 2 3 4 5 6 7]]
-  [a b more])                                               ;=> [1 2 (3 4 5 6 7)]
+  [a b more]) ;=> [1 2 (3 4 5 6 7)]
 
 ;
 ; Map destructuring:
 ;
 
-(let [v     (first b/books)
+(let [v (first b/books)
       title (:title v)
       langs (:langs v)
       pages (:pages v)]
@@ -77,7 +77,7 @@
 
 ; And have defaults:
 
-(let [{:keys [a b c] :or {c 7}}   {:a 8 :b 27}]
+(let [{:keys [a b c] :or {c 7}} {:a 8 :b 27}]
   (+ a b c))
 ;=> 42
 
@@ -124,15 +124,15 @@
 ;
 
 (defn score [game]
-  (let [level   (get game :level)
-        ships   (get-in game [:hits :ships])
-        aliens  (get-in game [:hits :aliens])
+  (let [level (get game :level)
+        ships (get-in game [:hits :ships])
+        aliens (get-in game [:hits :aliens])
         rockets (get-in game [:hits :rockets])]
     (* level (+ (* 100 (or ships 0))
-                (* 10  (or aliens 0))
+                (* 10 (or aliens 0))
                 (* 200 (or rockets 0))))))
 
 (deftest score-tests
   (is (= 45720 (score {:level 6
-                       :hits  {:ships  32
-                               :aliens 442}}))))
+                       :hits {:ships 32
+                              :aliens 442}}))))

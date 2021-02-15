@@ -18,32 +18,41 @@
 
 ;; One practical reason for this is side-effects
 
-(when (= 1 1)
-  (side-effect-one)
-  (side-effect-two))
+(defn side-effect-one [] (println "Executing one!"))
+(defn side-effect-two [] (println "Executing two!"))
 
-(if (= 1 1)
-  (side-effect-one)
-  (side-effect-two))
-
-(if (= 1 1)
-  (do
+(comment
+  (when (= 1 1)
     (side-effect-one)
     (side-effect-two)))
 
+(comment
+  (if (= 1 1)
+    (side-effect-one) ;; Not ran!
+    (side-effect-two)))
+
+(comment
+  (if (= 1 1)
+    ;; Do helps
+    (do
+      (side-effect-one)
+      (side-effect-two))))
+
 ;; Cond
-(def a 1)
+(def a 2)
 (cond
   (< a 2) "A is less than two"
   (> a 2) "A is more than two"
   :default "A equals two")
 
 ;; The "default" case in cond is a predicate that is always truthy!
+;; In Clojure, only nil and false are 'false'. Everything else is truthy
 
 (cond
   (< a 2) "A is less than two"
   (> a 2) "A is more than two"
   true "A equals two")
+
 
 ;; But commonly we use :else or :default
 
@@ -53,6 +62,9 @@
   1 "A is less than two"
   2 "A equals two"
   "A is more than two")
+
+;; Case needs a matching clause or it throws an IllegalArgumentException
+;; Cond returns nil if there's no match
 
 ;; The "default" case in 'case' is a result without a test-expression
 ;; It's pretty easy to mix these up, but try to remember that 'cond' uses predicates,

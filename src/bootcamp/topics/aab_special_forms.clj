@@ -36,6 +36,17 @@ answer ;=> 42
 (defn two-parameters [a b]
   (+ a b))
 
+;; Don't use def inside a function, always a let!
+(comment
+  (defn foobarbar-wrong [a b]
+    ;; WRONG, third parameter will be added to the namespace
+    (def third-parameter 10)
+    (+ a b third-parameter))
+
+  (defn foobarbar-wrong [a b]
+    (let [third-parameter 10]
+      (+ a b third-parameter))))
+
 ;; defn takes a docstring
 (defn my-docstringed "This function is quite useless" []
   "Common error is to put the dosctring AFTER the parameters. This is already a part of the function body,
@@ -69,6 +80,14 @@ answer ;=> 42
   (is (= "No" (if false "Yes" "No")))
   (is (= nil (if false "Yes"))))
 
+
+;; Comments are done with ;. Single ; is typically reserved for inline comments, but it's just style
+;; #_ comments a whole block. And it can stack
+(let [#_#_unused-local-variable 5]
+  (* 2 2))
+;; Finally there is (comment), which is useful if you want to have code that is largely ignored,
+;; but you can still run in the REPL. Note that code in (comment) must not be broken!
+
 ;; EXERCISES
 
 ; Examine what is considered as 'true', change the "?" to "Yes" or "No":
@@ -79,6 +98,8 @@ answer ;=> 42
   (is (= "?" (if "hello" "Yes" "No")))
   (is (= "?" (if false "Yes" "No")))
   (is (= "?" (if nil "Yes" "No"))))
+
+
 
 ;
 ; Fix this test:
@@ -100,6 +121,3 @@ answer ;=> 42
 ;; define a function 'double' that works like this: '(double 5) ==> 10', '(double 1) ==> 2'
 
 ;; add a _docstring_ to the function 'double'. Then show it using '(doc double)'.
-
-;; challenge! implement a 'factorial' function using recursion.
-;; eg. 5! = 5 x 4 x 3 x 2 x 1 = 120

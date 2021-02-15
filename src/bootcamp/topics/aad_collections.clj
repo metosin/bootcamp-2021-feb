@@ -15,8 +15,13 @@
 (count some-primes) ;=> 8
 (nth some-primes 0) ;=> 2
 (nth some-primes 1) ;=> 3
+
+;; by the way, it's pretty rare to take something from a list of values using an index. If you are, it's a code smell
+;; (meaning you _might_ be doing something suboptimal, but it might be ok).
+
 (conj some-primes 23) ;=> [2 3 5 7 11 13 17 19 23]
 some-primes ;=> [2 3 5 7 11 13 17 19]
+
 
 (vector? some-primes) ;=> true
 (vector 1 2 3) ;=> [1 2 3]
@@ -32,9 +37,6 @@ some-primes ;=> [2 3 5 7 11 13 17 19]
 
 (nth some-happy-numbers 0) ;=> 1
 (nth some-happy-numbers 1) ;=> 7
-
-;; by the way, it's pretty rare to take something from a list of values using an index. If you are, it's a code smell
-;; (meaning you _might_ be doing something suboptimal, but it might be ok).
 
 (conj some-happy-numbers 0) ;=> (0 1 7 10 13 19 23 28)
 
@@ -84,7 +86,11 @@ person ;=> {:email "foo@bar.com", :name "<your name here>"}
 ; Keywords are functions too
 
 (ifn? :name) ;=> true
-(:name person) ;=> "<your name here>"
+
+(get person :name) ;=> "<your name here>"
+(person :name) ;=> "<your name here>"
+(:name person) ;=> "<your name here>" !! Prefer this
+;; Main advantage of get is probably that it can take the "default-value" as a third parameter
 
 ; Sets:
 
@@ -100,6 +106,18 @@ person ;=> {:email "foo@bar.com", :name "<your name here>"}
 
 (planets :mars) ;=> :mars
 (planets :pluto) ;=> nil
+
+;; Common pattern is to use set as a filtering function
+(let [employees [{:name "Bob" :id 1}
+                 {:name "Janice" :id 2}
+                 {:name "George" :id 3}]
+      salaries [{:id 1 :salary 4000}
+                {:id 2 :salary 5200}
+                {:id 3 :salary 2800}]
+      employees-with-salaries-under-5k (filter #(< (:salary %) 5000) salaries) ; => '({:id 1, :salary 4000} {:id 3, :salary 2800})
+      ids-for-employees-with-salaries-under-5k (set (map :id employees-with-salaries-under-5k)) ; => #{1 3}
+      ]
+  (filter #(ids-for-employees-with-salaries-under-5k (:id %)) employees))
 
 ; Excercises: fix these:
 

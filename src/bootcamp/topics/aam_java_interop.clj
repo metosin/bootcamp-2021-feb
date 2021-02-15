@@ -2,6 +2,11 @@
   (:import [java.util Random]
            [java.io File FilenameFilter]))
 
+;; JS interop
+
+;; (js/console.log "Hello world")
+;; (.getElementById js/document "app")
+
 ;;
 ;; Java inter-op
 ;; -------------
@@ -16,28 +21,28 @@
 
 ; Instantiate Java objects:
 
-(def rnd (new Random 42))                                   ; old way
-(def rnd (Random. 42))                                      ; idiomatic
+(def rnd (new Random 42)) ; old way
+(def rnd (Random. 42)) ; idiomatic
 
 ; Invoke method:
 
-(. rnd nextInt 1337)                                        ;=> 897  old way
-(.nextInt rnd 1337)                                         ;=> 152  idiomatic
+(. rnd nextInt 1337) ;=> 897  old way
+(.nextInt rnd 1337) ;=> 152  idiomatic
 
 ; class
 
-(class rnd)                                                 ;=> java.util.Random
-(class (class rnd))                                         ;=> java.util.Class
+(class rnd) ;=> java.util.Random
+(class (class rnd)) ;=> java.util.Class
 
 ; instance?
 
-(instance? Random rnd)                                      ;=> true
-(instance? Random 42)                                       ;=> false
+(instance? Random rnd) ;=> true
+(instance? Random 42) ;=> false
 
 ; Static methods/fields:
 
-(str "Java version: " (System/getProperty "java.version"))  ;=> "Java version: 1.8.0_45"
-(str "AC/DC: Back in " java.awt.Color/BLACK)                ;=> "AC/DC: Back in java.awt.Color[r=0,g=0,b=0]"
+(str "Java version: " (System/getProperty "java.version")) ;=> "Java version: 1.8.0_45"
+(str "AC/DC: Back in " java.awt.Color/BLACK) ;=> "AC/DC: Back in java.awt.Color[r=0,g=0,b=0]"
 
 ;;
 ;; Exceptions:
@@ -82,4 +87,10 @@
     (println "file:" (.getName f))))
 ; prints:
 ;  file: project.clj
+
+;; doto threading
+(doto (java.util.HashMap.)
+  (.put "a" 1)
+  (.put "b" 2)
+  (println))
 

@@ -49,9 +49,9 @@
     (let [future-task (future
                         (println "Loading page...")
                         (slurp "http://www.metosin.fi"))]
-      ; returns immediatelly
-      (println "Realized immediatelly?" (realized? future-task))
-      (println "Watin 1 sec...")
+      ; returns immediately
+      (println "Realized immediately?" (realized? future-task))
+      (println "Waiting 1 sec...")
       (Thread/sleep 1000)
       (println "Now realized?" (realized? future-task))
       (println "Result:" (count (deref future-task))))

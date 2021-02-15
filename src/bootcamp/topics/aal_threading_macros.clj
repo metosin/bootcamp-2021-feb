@@ -20,7 +20,7 @@
       (update :LASTNAME name)
       ;; Whoops! This is tricky
       ;; :FIRSTNAME and :LASTNAME in 'data' are still keywords
-      (assoc :name (str (:FIRSTNAME data) " " (:LASTNAME data)))
+      (assoc :name (str (name (:FIRSTNAME data)) " " (name (:LASTNAME data))))
       (dissoc :FIRSTNAME :LASTNAME)))
 
 ;; ->> inserts x as the last item

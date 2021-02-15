@@ -60,17 +60,29 @@
   (println "generating hello message for" your-name)
   (str message ", " your-name))
 
-(def message (atom nil))                                    ; known as "evil global mutable state"
+(def message (atom nil)) ; known as "evil global mutable state"
 ; http://programmers.stackexchange.com/questions/148108/why-is-global-state-so-evil
 
 (defn hello [your-name]
   (str (deref message) ", " your-name))
 
 (reset! message "Hello")
-(hello "world")                                             ;=> "Hello, world"
+(hello "world") ;=> "Hello, world"
 
 (reset! message "Moi")
-(hello "maailma")                                           ;=> "Moi, maailma"
+(hello "maailma") ;=> "Moi, maailma"
+
+;; Other ways to "change values" are alter-var-root and dynamic variables (or stuff we will go over in the STM namespace)
+;; NEITHER SHOULD BE USED FOR APPLICATION LOGIC
+;; You mostly come across them in code that sets up your development environment
+
+(def ^:dynamic some-changing-value 5)
+
+some-changing-value
+
+(comment
+  (with-redefs [some-changing-value 10]
+    (println "redefined value is" some-changing-value)))
 
 ; Why purity matters?
 ; Pure functions are easy to develop, test and reason about.
@@ -84,9 +96,9 @@
 ; ---------
 ;
 
-(defn greeter [message]            ; <- message here
+(defn greeter [message] ; <- message here
   (fn [your-name]
-    (str message ", " message)))   ; <- used as closure here
+    (str message ", " message))) ; <- used as closure here
 
 (let [g (greeter "Hullo")]
   ; now g 'closes over string "Hullo"'

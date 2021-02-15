@@ -86,4 +86,8 @@
 
            ))))
 
+;; Use the function 'update-in' to change 3 into 4 in the value below:
+{:shops [:shop-1]
+ :customers [{:id "Pekka"
+              :account {:balance 3}}]}
 

@@ -48,8 +48,19 @@
 ; Idiomatic way to check is collection is empty:
 
 (let [some-empty-collection []]
-  (if (nil? (seq some-empty-collection))
+  (if (seq some-empty-collection)
+    "Not empty, let's proceed"
     "Yeah, is empty"))
+
+(let [some-empty-collection []]
+  (if (not (empty? some-empty-collection))
+    "Not empty, let's proceed"
+    "Yeah, is empty"))
+
+(let [some-empty-collection []]
+  (if (not-empty some-empty-collection)
+    "Yeah, is empty"
+    "Not empty, let's proceed"))
 
 ; Clojure's = compares collections and sequences based on their content:
 

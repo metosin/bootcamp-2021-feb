@@ -41,7 +41,7 @@
 ;; 1 < 2 -> (< 1 2) ;; I still can't get used to this after 5 years
 
 ;; The above is why Clojure (Lisp) is 'homoiconic'.
-;; There aren't really any "reserved words".
+;; There aren't really any "reserved words", e.g. return.
 ;; Code is just a bunch of lists, where the first element is evaluated as a function.
 ;; This homoiconicity is the reason we can so easily write macros in any Lisp (macro is code that produces code).
 ;; If this trips you up right now, don't worry about it right now.
@@ -57,3 +57,4 @@
 ;;
 ;; Available IDEs: Emacs+CIDER, IDEA+Cursive, vs code+Calva..
 ;; Leiningen, shadow-cljs, (figwheel, deps)
+;; REPL

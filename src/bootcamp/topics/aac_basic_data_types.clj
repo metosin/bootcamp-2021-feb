@@ -18,11 +18,13 @@
 ;;
 
 (type 42)                                                   ;=> java.lang.Long
+(type 42M)                                                  ;=> java.math.BigDecimal
 (type 3.12159)                                              ;=> java.lang.Double
+(type 3/14)                                                 ;=> clojure.lang.Ratio
 (type true)                                                 ;=> java.lang.Boolean
 (type \x)                                                   ;=> java.lang.Character
+(type "x")                                                  ;=> java.lang.String
 (type #"foo\s+bar")                                         ;=> java.util.regex.Pattern
-(type 3/14)                                                 ;=> clojure.lang.Ratio
 
 ; Note: pay attention of unintended ratios:
 
@@ -51,6 +53,11 @@ nil                                                         ;=> nil
 (keyword? :foo)                                             ;=> true
 (keyword? "foo")                                            ;=> false
 (keyword? (keyword "foo"))                                  ;=> true
+
+{:id 1 ;yes
+ "id" 1 ; no
+ 'id 1 ; no
+ }
 
 ; The '=' function uses Object.equals
 (= "foobar" (str "foo" "bar"))                              ;=> true
@@ -147,7 +154,7 @@ answer                                                      ; 42
 (foo 1 2)                                                   ;=> [1 2 nil]
 
 ;; TODO:
-;;   write a function that returns the takes two arguments, the names of your neighbours.
+;;   write a function that takes two arguments, the names of your neighbours.
 ;;   the function should returns the average length of those names and your own name.
 ;; Helper:
 ;;   check functions count, + and / from clojure.core namespace
@@ -179,3 +186,6 @@ answer                                                      ; 42
   (let [f (greeter "Hello")]
     (is (= "Hello, world" (f "world")))
     (is (= nil (f nil)))))
+
+;; challenge! implement a 'factorial' function using recursion.
+;; eg. 5! = 5 x 4 x 3 x 2 x 1 = 120

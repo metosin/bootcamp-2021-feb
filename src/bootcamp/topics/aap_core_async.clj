@@ -1,5 +1,5 @@
 (ns bootcamp.topics.aap-core-async
-  (:require [clojure.core.async :refer [go <! <!! >! >!!] :as a]))
+  (:require [clojure.core.async :refer [go <! <!! >! >!!] :as async]))
 
 ; Helper: logger
 
@@ -35,9 +35,9 @@
 ; - closed with (close!)
 
 #_
-    (let [c (a/chan)]
+    (let [c (async/chan)]
       (println (type c))
-      (a/close! c))
+      (async/close! c))
 
 ; stdout:
 ;   clojure.core.async.impl.channels.ManyToManyChannel
@@ -48,7 +48,7 @@
 #_
     (time
       (dotimes [_ 1e6]
-        (a/chan)))
+        (async/chan)))
 
 ; stdout:
 ; "Elapsed time: 51.389819 msecs"
@@ -58,7 +58,7 @@
 ;
 
 #_
-    (let [c      (a/chan)
+    (let [c      (async/chan)
           reader (logger :reader)
           writer (logger :writer)]
       (future
@@ -83,7 +83,7 @@
 ; Note how the reader was blocked until value was available.
 
 #_
-    (let [c      (a/chan)
+    (let [c      (async/chan)
           reader (logger :reader)
           writer (logger :writer)]
       (future
@@ -109,8 +109,8 @@
 ; Closing channels with clojure.core.async/close!
 
 #_
-    (let [c (a/chan)]
-      (a/close! c)
+    (let [c (async/chan)]
+      (async/close! c)
       (println "reading from closed:" (<!! c))
       (println "writing to closed:" (>!! c "hello")))
 
@@ -129,14 +129,14 @@
 ; Channel with buffering
 
 #_
-    (let [c      (a/chan 2) ; <= NOTE: Channel with buffer with room for 2 items
+    (let [c      (async/chan 2) ; <= NOTE: Channel with buffer with room for 2 items
           reader (logger :reader)
           writer (logger :writer)]
       (future
         (writer "Writing to channel")
         (>!! c "Hello")
         (>!! c "world")
-        (a/close! c)
+        (async/close! c)
         (writer "Done"))
       (reader "Sleeping for 1 sec...")
       (Thread/sleep 1000)
@@ -177,13 +177,13 @@
 ; - if buffer is full, new values are "dropped"
 
 #_
-    (let [c (a/chan (a/dropping-buffer 10)) ; buffer to 10 items
+    (let [c (async/chan (async/dropping-buffer 10)) ; buffer to 10 items
           reader-log (logger :reader)
           writer-log (logger :writer)]
       (writer-log "Write 20 numbers and close channel")
       (dotimes [n 20]
         (>!! c n))
-      (a/close! c)
+      (async/close! c)
       (writer-log "Done")
       (read-until-closed!! c reader-log))
 
@@ -210,13 +210,13 @@
 ; - if buffer is full, oldest values are dropped
 
 #_
-    (let [c (a/chan (a/sliding-buffer 10))
+    (let [c (async/chan (async/sliding-buffer 10))
           reader-log (logger :reader)
           writer-log (logger :writer)]
       (writer-log "Write 20 numbers and close channel")
       (dotimes [n 20]
         (>!! c n))
-      (a/close! c)
+      (async/close! c)
       (writer-log "Done")
       (read-until-closed!! c reader-log))
 
@@ -265,7 +265,7 @@
 ; Inside go blocks, use "parking" functions >! and <!
 
 #_
-    (let [c (a/chan)
+    (let [c (async/chan)
           reader-log (logger :reader)
           writer-log (logger :writer)]
       (go
@@ -282,14 +282,14 @@
 ; - channel that closes automatically after timeout
 
 #_
-    (let [c      (a/chan)
+    (let [c      (async/chan)
           reader-log (logger :reader)
           writer-log (logger :writer)]
       (go
         (reader-log "Received" (<! c)))
       (go
         (writer-log "Sleeping for 1 sec...")
-        (<! (a/timeout 1000))
+        (<! (async/timeout 1000))
         (writer-log "Timeout elapsed, sending message")
         (>! c :hello)))
 
@@ -303,7 +303,7 @@
 ;
 
 #_
-    (let [c1 (a/chan)
+    (let [c1 (async/chan)
           c2 (go
                (* 2 (<! c1)))
           reader-log (logger :reader)]
@@ -324,17 +324,17 @@
 ; alts! and alts!!
 
 #_
-    (let [c1 (a/chan)
-          c2 (a/chan)
+    (let [c1 (async/chan)
+          c2 (async/chan)
           c-name {c1 "c1"
                   c2 "c2"}]
       (go
-        (<! (a/timeout (rand-int 1000)))
+        (<! (async/timeout (rand-int 1000)))
         (>! c1 "foo"))
       (go
-        (<! (a/timeout (rand-int 1000)))
+        (<! (async/timeout (rand-int 1000)))
         (>! c2 "bar"))
-      (let [[v c] (a/alts!! [c1 c2])]
+      (let [[v c] (async/alts!! [c1 c2])]
         (str "Got " v " from " (c-name c))))
 
 ;=> "Read foo from c1"
@@ -346,12 +346,12 @@
 #_
     (let [go1-log (logger "go 1")
           go2-log (logger "go 2")
-          c1 (a/chan)
-          c2 (a/chan)
-          c3 (a/chan)]
+          c1 (async/chan)
+          c2 (async/chan)
+          c3 (async/chan)]
       (go
         (while true
-          (go1-log (a/alt!
+          (go1-log (async/alt!
                      c1 ([v] (+ v 10))
                      c2 ([v] (* v 10))
                      [[c3 42]] (println "wrote to c3")))))
@@ -378,41 +378,41 @@
 
 #_
     (defn time-consuming-task-with-ch []
-      (let [c (a/chan 1)]
+      (let [c (async/chan 1)]
         (go
           (Thread/sleep 1000) ; simulate hard work...
           (>! c 42)           ; deliver results
-          (a/close! c))
+          (async/close! c))
         c))
 
 #_
     (go (println "Repsonse:" (<! (time-consuming-task-with-ch))))
 
 #_
-    (go (a/alt!
+    (go (async/alt!
           (time-consuming-task-with-ch) ([response]
                                          (println "Response:" response))
-          (a/timeout 500)               ([_]
+          (async/timeout 500) ([_]
                                          (println "Timeout"))))
 
 ;; Event-loop
 
 #_
     (defn start-loop []
-      (let [ctrl   (a/chan)
-            events (a/chan)
+      (let [ctrl   (async/chan)
+            events (async/chan)
             log    (logger :loop)]
         (go
           (loop []
-            (a/alt!
+            (async/alt!
               events ([v]
                       (when v
                         (log "received" v)
                         (recur)))
-              ctrl   ([]
+              ctrl ([]
                       (log "close requested")
                       nil)
-              (a/timeout 100) ([]
+              (async/timeout 100) ([]
                                (log "timeout")
                                (recur))))
           (log "closed"))
@@ -425,7 +425,7 @@
       (go (>! events 3))
       (Thread/sleep 250)
       (go (>! events 4))
-      (go (a/close! ctrl))
+      (go (async/close! ctrl))
       nil)
 
 ; stdout
@@ -464,30 +464,30 @@
 
 #_
     (defn hacker-news-links []
-      (let [c (a/chan 1)]
+      (let [c (async/chan 1)]
         (future
           (->> (fetch "https://news.ycombinator.com" [:td.title html/content])
                (map (juxt (comp first :content) (comp :href :attrs)))
                (filter (partial every? string?))
                (butlast)
                (map (partial cons 'hn))
-               (map (partial a/put! c))
+               (map (partial async/put! c))
                (dorun))
-          (a/close! c))
+          (async/close! c))
         c))
 
 ; Fetch reddit links:
 
 #_
     (defn reddit-links []
-      (let [c (a/chan 1)]
+      (let [c (async/chan 1)]
         (future
           (->> (fetch "http://www.reddit.com" [:#siteTable :> :.thing :p.title :> :a])
                (map (juxt (comp first :content) (comp :href :attrs)))
                (map (partial cons 'reddit))
-               (map (partial a/put! c))
+               (map (partial async/put! c))
                (dorun))
-          (a/close! c))
+          (async/close! c))
         c))
 
 ; Create channel for hacker-news links and another for reddit links, merge them to one
@@ -496,9 +496,9 @@
 
 #_
     (read-until-closed!!
-      (a/map (fn [[source title _]]
+      (async/map (fn [[source title _]]
                (str "(" source ") " title))
-             [(a/merge [(hacker-news-links) (reddit-links)])])
+                 [(async/merge [(hacker-news-links) (reddit-links)])])
       (logger "news"))
 
 ; stdout:
