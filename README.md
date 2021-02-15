@@ -67,31 +67,7 @@ https://cursiveclojure.com/userguide/leiningen.html
 
 Microsoft Visual Studio Code has [Calva][calva] plugin for Clojure code.  The
 plugin can be installed through the Visual Studio Marketplace (just click the
-"Extensions" icon and search for "Calva"). Once installed you can open a
-Clojure project as follows:
-
-- Close existing workspace if you have one open.
-
-- Open the project folder through `File` -> `Add Folder to Workspace`.
-- Open a new terminal `Terminal` -> `New Terminal` which should open into the
-  project root.
-
-- Start nREPL with `lein repl`
-
-- Open a `.clj` file (in our example case the file
-  `src/clj/setup/server.clj`). You should observe a bright "nREPL⚡" icon
-  (located in the bottom left footer area) indicating a live nREPL
-  connection. In case there is no active connection you can try to connect
-  manually:
-
-    - Go to the terminal and note the nREPL port from the first line of the
-      process output.
-
-    - Start connecting by pressing `Ctrl+Alt+v` `c` and supply the (host and)
-      port when/if asked for it.
-
-- See Calva's [Github page][calva-github] for information about how to use the
-  plugin.
+"Extensions" icon and search for "Calva").
 
 [calva]: https://marketplace.visualstudio.com/items?itemName=cospaia.clojure4vscode
 [calva-github]: https://github.com/BetterThanTomorrow/calva
