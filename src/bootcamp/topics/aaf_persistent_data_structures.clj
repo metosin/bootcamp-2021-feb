@@ -1,4 +1,4 @@
-(ns bootcamp.topics.007-persistent-data-structures
+(ns bootcamp.topics.aag-persistent-data-structures
   (:require [clojure.test :refer :all]
             [clojure.string :as string]))
 

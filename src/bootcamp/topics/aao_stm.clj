@@ -1,4 +1,4 @@
-(ns bootcamp.topics.013-stm)
+(ns bootcamp.topics.aam-stm)
 
 ; package clojure.lang;
 ;

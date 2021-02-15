@@ -1,4 +1,4 @@
-(ns bootcamp.topics.006-functional-programming
+(ns bootcamp.topics.aaf-functional-programming
   (:require [clojure.test :refer :all]))
 
 ;;
@@ -91,3 +91,16 @@
 (let [g (greeter "Hullo")]
   ; now g 'closes over string "Hullo"'
   (str (g "world!")))
+
+;; EXERCISES
+
+;; define an _atom_ called 'counter' that contains the value '4'
+
+;; get the value of 'counter' using the '@' operator
+
+;; update 'counter' to the value '5' with the function 'reset!'
+
+;; get the value of 'counter' using the function 'deref'
+
+;; update 'counter' to the value '6' by using the function 'swap!'
+;; Hint: remember 'inc'.
