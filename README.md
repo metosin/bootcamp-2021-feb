@@ -57,8 +57,7 @@ you can use those. If not, consider IDEA+Cursive, or VS Code+Calva if you want a
 
 ### IntelliJ IDEA with Cursive
 
-IDEA has two Clojure plugins, the old La Clojure and the new and
-shiny Cursive. Follow the instructions for installing Cursive in
+Follow the instructions for installing Cursive in
 here https://cursiveclojure.com/userguide/
 
 Import the project as described in this page
