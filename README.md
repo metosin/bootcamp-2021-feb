@@ -13,10 +13,10 @@ You need:
 Note, if you have Linux or Mac, you can install these using your package
 manager. In case of Mac, use [Homebrew](http://brew.sh).
 
+* Clojure command line tools: https://clojure.org/guides/getting_started
 * JDK 1.8 _(or later)_: https://www.azul.com/downloads/zulu-community/?package=jdk
 * Leiningen 2.5.0 _(or later)_: http://leiningen.org
 * git: http://git-scm.com/book/en/v2/Getting-Started-Installing-Git
-* github account: https://github.com/join
 * IDE with Clojure support (more details below)
 
 ### Check that everything works
