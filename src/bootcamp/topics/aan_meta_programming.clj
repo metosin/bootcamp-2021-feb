@@ -1,4 +1,4 @@
-(ns bootcamp.topics.aal-meta-programming
+(ns bootcamp.topics.aan-meta-programming
   (:require [clojure.test :refer :all]
             [bootcamp.data.books :as b]))
 

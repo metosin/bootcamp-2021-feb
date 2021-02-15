@@ -1,5 +1,5 @@
 ;; In clojure, code is organised into namespaces
-(ns bootcamp.topics.002-special-forms
+(ns bootcamp.topics.aab-special-forms
   (:require [clojure.test :refer :all]))
 
 ; Define something to this namespace

@@ -1,4 +1,4 @@
-(ns bootcamp.topics.aak-java-interop
+(ns bootcamp.topics.aam-java-interop
   (:import [java.util Random]
            [java.io File FilenameFilter]))
 

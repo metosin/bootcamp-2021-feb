@@ -1,4 +1,4 @@
-(ns bootcamp.topics.004-collections
+(ns bootcamp.topics.aad-collections
   (:require [clojure.test :refer :all]))
 
 ;;
@@ -32,6 +32,9 @@ some-primes ;=> [2 3 5 7 11 13 17 19]
 
 (nth some-happy-numbers 0) ;=> 1
 (nth some-happy-numbers 1) ;=> 7
+
+;; by the way, it's pretty rare to take something from a list of values using an index. If you are, it's a code smell
+;; (meaning you _might_ be doing something suboptimal, but it might be ok).
 
 (conj some-happy-numbers 0) ;=> (0 1 7 10 13 19 23 28)
 

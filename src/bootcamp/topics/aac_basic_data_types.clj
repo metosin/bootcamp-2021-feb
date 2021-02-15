@@ -1,4 +1,4 @@
-(ns bootcamp.topics.003-basic-data-types
+(ns bootcamp.topics.aac-basic-data-types
   (:require [clojure.test :refer :all]))
 
 ;

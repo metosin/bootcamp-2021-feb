@@ -1,4 +1,4 @@
-(ns bootcamp.topics.aaj-destructuring
+(ns bootcamp.topics.aak-destructuring
   (:require [clojure.test :refer :all]
             [bootcamp.data.books :as b]))
 

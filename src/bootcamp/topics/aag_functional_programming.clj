@@ -1,4 +1,4 @@
-(ns bootcamp.topics.aaf-functional-programming
+(ns bootcamp.topics.aag-functional-programming
   (:require [clojure.test :refer :all]))
 
 ;;

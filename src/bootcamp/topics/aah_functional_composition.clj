@@ -1,4 +1,4 @@
-(ns bootcamp.topics.008-functional-composition
+(ns bootcamp.topics.aah-functional-composition
   (:require [clojure.test :refer :all]
             [clojure.string :as string]))
 

@@ -1,4 +1,4 @@
-(ns bootcamp.topics.001-intro)
+(ns bootcamp.topics.aaa-intro)
 
 ;;
 ;; Personal introductions

@@ -1,4 +1,4 @@
-(ns bootcamp.topics.009-map-reduce-filter
+(ns bootcamp.topics.aai-map-reduce-filter
   (:require [clojure.test :refer :all]
             [clojure.string :as string]
             [bootcamp.data.books :as b]))

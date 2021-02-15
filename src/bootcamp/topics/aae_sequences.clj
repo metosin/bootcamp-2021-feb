@@ -1,4 +1,4 @@
-(ns bootcamp.topics.005-sequences
+(ns bootcamp.topics.aae-sequences
   (:require [clojure.test :refer :all]))
 
 ;;

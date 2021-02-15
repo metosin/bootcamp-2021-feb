@@ -1,4 +1,4 @@
-(ns bootcamp.topics.aan-core-async
+(ns bootcamp.topics.aap-core-async
   (:require [clojure.core.async :refer [go <! <!! >! >!!] :as a]))
 
 ; Helper: logger
