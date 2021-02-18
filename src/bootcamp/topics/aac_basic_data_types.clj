@@ -54,6 +54,9 @@ nil                                                         ;=> nil
 (keyword? "foo")                                            ;=> false
 (keyword? (keyword "foo"))                                  ;=> true
 
+(name :foo)
+(keyword "foo")
+
 {:id 1 ;yes
  "id" 1 ; no
  'id 1 ; no
@@ -135,9 +138,11 @@ answer                                                      ; 42
   ([]
    (say-hello2 "world"))
   ([your-name]
-   (str "Hello, " your-name))
+   (say-hello2 "Hello" your-name))
   ([greeting your-name]
    (str greeting ", " your-name)))
+
+(say-hello2)
 
 
 (deftest say-hello2-tests
@@ -146,8 +151,8 @@ answer                                                      ; 42
 
 ; Function with any number of args:
 
-(defn foo [a b & args]
-  [a b args])
+(defn foo [a b & my-arguments]
+  [a b my-arguments])
 
 (foo 1 2 3 4)                                               ;=> [1 2 (3 4)]
 (foo 1 2 3)                                                 ;=> [1 2 (3)]
@@ -160,6 +165,13 @@ answer                                                      ; 42
 ;;   check functions count, + and / from clojure.core namespace
 ;;   try: (clojure.repl/doc count)
 
+(defn average-names [a b]
+  (/ (+ (count a)
+        (count b)
+        (count "Teemu"))
+     3))
+
+(float (average-names "Panu" "Tero"))
 
 ;;
 ;; Closures:
@@ -180,7 +192,9 @@ answer                                                      ; 42
 
 (defn greeter [message]
   (fn [your-name]
-    ))
+    (when your-name
+      (println "Moi")
+      (str message ", " your-name))))
 
 (deftest greeter-tests
   (let [f (greeter "Hello")]
@@ -189,3 +203,9 @@ answer                                                      ; 42
 
 ;; challenge! implement a 'factorial' function using recursion.
 ;; eg. 5! = 5 x 4 x 3 x 2 x 1 = 120
+
+(defn factorial [n]
+  (if (= n 1)
+    1
+
+    (* n (factorial (- n 1)))))

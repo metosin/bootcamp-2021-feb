@@ -23,6 +23,11 @@
            ;; assoc-in, update-in can be used for nested stuff (here it doesn't do anything special)
            (assoc-in book [:pages] 328)))
 
+
+    (assoc-in {:data {:email "T"
+                      :company {}}}
+              [:data :company :name] "nokia")
+
     ; The 'book' is not changed (it's immutable):
     (is (= {:title "The Joy of Clojure"
             :langs #{:clojure}
@@ -32,7 +37,8 @@
     (is (= {:title "THE JOY OF CLOJURE"
             :langs #{:clojure}
             :authors [:fogus]}
-           (update book :title string/upper-case)))
+           (update book :title string/upper-case)
+           (assoc book :title (fn [book-title] (string/upper-case book-title)))))
 
     ; Dis-associate by key
     (is (= {:title "The Joy of Clojure"
@@ -69,7 +75,14 @@
             :authors [:fogus :houser]}
            ;                 ^^^^^^^-------< here
 
-           ))))
+           (update book :authors conj :houser)
+           (update-in book [:authors] conj :houser)
+
+           (assoc-in book [:authors] (conj (:authors book) :houser))
+           (assoc book
+                  :authors
+                  (conj (:authors book)
+                        :houser))))))
 
 ; Your task: add 100 points to 'points'.
 (deftest add-100-points-to-game-score-tests
@@ -84,10 +97,14 @@
                             :points 1337}}}
            ;                        ^^^^---------< here's the +100
 
-           ))))
+           (update-in game [:state :score :points] + 100)
+           (assoc-in game [:state :score :points] (+ (get-in game [:state :score :points])
+                                                     100))))))
 
 ;; Use the function 'update-in' to change 3 into 4 in the value below:
-{:shops [:shop-1]
- :customers [{:id "Pekka"
-              :account {:balance 3}}]}
+(update-in {:shops [:shop-1]
+            :customers [{:id "Pekka"
+                         :account {:balance 3}}]}
+           [:customers 0 :account :balance]
+           inc)
 

@@ -11,24 +11,32 @@
 (defn greeter [message your-name]
   (str message ", " your-name))
 
-(def greeter-en (partial greeter "Hello"))
+(greeter "Hello" "world")
+
+(def greeter-en #(greeter "Hello" %))
 (def greeter-fi (partial greeter "Moi"))
 
-(greeter-en "world")                                        ;=> "Hello, world"
-(greeter-fi "maailma")                                      ;=> "Moi, maailma"
+(greeter-en "world") ;=> "Hello, world"
+(greeter-fi "maailma") ;=> "Moi, maailma"
 
 ; comp
 
 ; Make a function that accepts a seq of strings and returns
 ; the strings joined with ", " in upper-case letters:
 
-(string/join ", " ["a" "b"])                                ;=> "a, b"
-(string/upper-case "hello")                                 ;=> "HELLO"
+(string/join ", " ["a" "b"]) ;=> "a, b"
+(string/upper-case "hello") ;=> "HELLO"
 
 (def shout (comp string/upper-case
-                 (partial string/join ", ")))
+                 (fn [str-vec]
+                   (string/join ", " str-vec))))
 
-(shout ["this" "is" "fun"])                                 ;=> "THIS, IS, FUN"
+(shout ["this" "is" "fun"]) ;=> "THIS, IS, FUN"
+
+#_(map (comp kolmas-operaatio
+           toinen-operaatio
+           ensimmainen-operaatio)
+     database-result)
 
 ; Exercise:
 ; Make a function that accepts a string of digits, converts it to
@@ -37,10 +45,11 @@
 (defn str->long [v]
   (Long/parseLong v))
 
-(str->long "42")                                            ;=> 42
+(str->long "42") ;=> 42
 
 ; Fix this
-(def str-doubler str->long)
+(def str-doubler (comp (fn [n] (* 2 n))
+                       str->long))
 
 ; This should pass
 (deftest str-doubler-test

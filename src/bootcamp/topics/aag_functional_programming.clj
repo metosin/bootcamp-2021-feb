@@ -66,7 +66,9 @@
 (defn hello [your-name]
   (str (deref message) ", " your-name))
 
-(reset! message "Hello")
+(hello "Teemu")
+
+(reset! message "Greetings")
 (hello "world") ;=> "Hello, world"
 
 (reset! message "Moi")
@@ -98,21 +100,32 @@ some-changing-value
 
 (defn greeter [message] ; <- message here
   (fn [your-name]
-    (str message ", " message))) ; <- used as closure here
+    (str message ", " your-name))) ; <- used as closure here
+
+((greeter "Hello") "Teemu")
 
 (let [g (greeter "Hullo")]
   ; now g 'closes over string "Hullo"'
   (str (g "world!")))
 
+(def name-atom (atom nil))
+(reset! name-atom "Teemu")
+(deref name-atom)
+@name-atom
+(reset! name-atom nil) ;; assoc
+(swap! name-atom clojure.string/upper-case) ;; update
+(reset! name-atom (clojure.string/upper-case @name-atom))
+
 ;; EXERCISES
 
 ;; define an _atom_ called 'counter' that contains the value '4'
-
+(def counter (atom 4))
 ;; get the value of 'counter' using the '@' operator
-
+@counter
 ;; update 'counter' to the value '5' with the function 'reset!'
-
+(reset! counter 5)
 ;; get the value of 'counter' using the function 'deref'
-
+(deref counter)
 ;; update 'counter' to the value '6' by using the function 'swap!'
 ;; Hint: remember 'inc'.
+(swap! counter (inc 1))

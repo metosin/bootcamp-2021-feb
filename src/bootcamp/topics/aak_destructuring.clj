@@ -35,8 +35,8 @@
 
 ; Extra elements are ignored
 
-(let [[a b c] [1 2 3 4 5 6 7]]
-  (+ a b c)) ;=> 6
+(let [[a b c :as v] [1 2 3 4 5 6 7]]
+  [a b c v]) ;=> 6
 
 ; Missing elements are set to nil
 
@@ -77,7 +77,9 @@
 
 ; And have defaults:
 
-(let [{:keys [a b c] :or {c 7}} {:a 8 :b 27}]
+(let [{:keys [a b c]
+       :or {a 10 b 200 c 7}}
+      {:a 8 :b 27}]
   (+ a b c))
 ;=> 42
 
@@ -85,6 +87,13 @@
 
 (let [{[_ author2] :authors} (first b/books)]
   author2)
+
+(let [[{:keys [title pages] [_ author2] :authors}] b/books]
+  [title pages author2])
+
+(let [{{:keys [name employees]} :department} {:department {:name "a" :employees 100}}]
+  [name employees])
+
 ;=> :houser
 
 ;
@@ -97,8 +106,11 @@
 ; Refactor this so that it uses destructuring.
 
 (defn topic? [lang book]
-  ;                ^^^^----------< detsructure here
   (get (:langs book) lang))
+
+(defn topic? [lang {:keys [langs] :as book}]
+  ;                ^^^^----------< detsructure here
+  (get langs lang))
 ;      ^^^^^^^^^^^^^-------------< effect here
 
 (deftest topic?-tests
@@ -109,10 +121,9 @@
 ; Convert this to use destructuring too:
 ;
 
-(defn price [order]
-  (let [item-price (or (get order :item-price) 0)
-        item-count (or (get order :item-count) 1)]
-    (* item-price item-count)))
+(defn price [{:keys [item-price item-count] :or {item-price 0
+                                                 item-count 1}}]
+  (* item-price item-count))
 
 (deftest price-tests
   (is (= 42 (price {:item-price 21 :item-count 2})))
@@ -123,14 +134,14 @@
 ; You know the drill:
 ;
 
-(defn score [game]
-  (let [level (get game :level)
-        ships (get-in game [:hits :ships])
-        aliens (get-in game [:hits :aliens])
-        rockets (get-in game [:hits :rockets])]
-    (* level (+ (* 100 (or ships 0))
-                (* 10 (or aliens 0))
-                (* 200 (or rockets 0))))))
+(defn score [{level :level
+              {:keys [ships aliens rockets]
+               :or {ships 0
+                    aliens 0
+                    rockets 0}} :hits}]
+  (* level (+ (* 100 ships)
+              (* 10 aliens)
+              (* 200 rockets))))
 
 (deftest score-tests
   (is (= 45720 (score {:level 6

@@ -6,6 +6,8 @@
 ; Meta programming:
 ;
 
+;; clojure for the brave and true macros
+
 ; defn is a macro, use macroexpan to reveal how it works:
 
 (macroexpand-1 '(defn foo [x] (+ x 5)))

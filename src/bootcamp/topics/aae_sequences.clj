@@ -134,7 +134,10 @@
 ; invented before 1990.
 
 (defn mature-langs [langs]
-  )
+  (filter
+    (fn [language]
+      (< (:invented language) 1990))
+    langs))
 
 (deftest mature-langs-tests
   (is (= [{:name "lisp" :invented 1958}

@@ -6,6 +6,7 @@
 
 (def answer 42)
 
+
 ; Evaluate it:
 answer ;=> 42
 
@@ -53,8 +54,13 @@ answer ;=> 42
   and won't do anything"
   (two-parameters 1 1))
 
+
 ;; Metadata
 (def ^{:docstring "Foobar"} foobar 100)
+
+(defn- foobar [])
+
+(def ^:private foobar)
 
 ;;
 ;; Use 'do' to evaluate multiple statements (always for side-effects)
@@ -63,16 +69,13 @@ answer ;=> 42
 (defn result []
   (println "result:"
            (if (= (* 2 21) answer)
-             (do
-               (println "Yes, we have the answer")
-               "yes")
-             (do
-               (println "Not, for some reason we do not have the answer")
-               "no"))))
+             (println "Yes, we have the answer")
+
+             (println "Not, for some reason we do not have the answer"))))
 
 
 ;;
-;; if
+;; if-else, if-elseif-else
 ;;
 
 (deftest if-tests
@@ -80,11 +83,11 @@ answer ;=> 42
   (is (= "No" (if false "Yes" "No")))
   (is (= nil (if false "Yes"))))
 
-
 ;; Comments are done with ;. Single ; is typically reserved for inline comments, but it's just style
 ;; #_ comments a whole block. And it can stack
-(let [#_#_unused-local-variable 5]
+(let [unused-local-variable 5]
   (* 2 2))
+
 ;; Finally there is (comment), which is useful if you want to have code that is largely ignored,
 ;; but you can still run in the REPL. Note that code in (comment) must not be broken!
 
@@ -93,13 +96,23 @@ answer ;=> 42
 ; Examine what is considered as 'true', change the "?" to "Yes" or "No":
 
 (deftest truthy-tests
-  (is (= "?" (if true "Yes" "No")))
-  (is (= "?" (if answer "Yes" "No")))
-  (is (= "?" (if "hello" "Yes" "No")))
-  (is (= "?" (if false "Yes" "No")))
-  (is (= "?" (if nil "Yes" "No"))))
-
-
+  (is (= "Yes"
+         (if true
+           "Yes"
+           "No")))
+  (is (= "Yes"
+         (if answer
+           "Yes"
+           "No")))
+  (is (= "Yes"
+         (if "hello"
+           "Yes"
+           "No")))
+  (is (= "No"
+         (if false
+           "Yes"
+           "No")))
+  (is (= "No" (if nil "Yes" "No"))))
 
 ;
 ; Fix this test:
@@ -108,16 +121,28 @@ answer ;=> 42
 (deftest fix-these-let-tests
   (let [a "hello"
         b "world"]
-    (is (= "Hello, world" (str a b)))))
+    (is (= "hello world" (str a b)))))
 
 ;; calculate '4+3'
 
+(+ 4 3)
+
 ;; calculate '(2+8/3)*9'
+
+(* (+ 2 (/ 8 3)) 9)
 
 ;; call the function 'get' with arguments '"bootcamp"' and '1'
 
+(get "bootcamp" 1)
+
 ;; use 'defn' to define a function greetings that works like this: '(greetings) ==> "hello!"'
+
+(defn greetings [] "hello")
+(greetings)
 
 ;; define a function 'double' that works like this: '(double 5) ==> 10', '(double 1) ==> 2'
 
+(defn double "doubles the value" [n] (* 2 n))
+(double 5)
+(clojure.repl/doc double)
 ;; add a _docstring_ to the function 'double'. Then show it using '(doc double)'.

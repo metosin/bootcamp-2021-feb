@@ -56,7 +56,8 @@ some-primes ;=> [2 3 5 7 11 13 17 19]
 ;
 
 (def person {:name "<your name here>"
-             :email "foo@bar.com"})
+             :email "foo@bar.com"
+             "age" 5})
 
 person ;=> {:email "foo@bar.com", :name "<your name here>"}
 
@@ -114,8 +115,10 @@ person ;=> {:email "foo@bar.com", :name "<your name here>"}
       salaries [{:id 1 :salary 4000}
                 {:id 2 :salary 5200}
                 {:id 3 :salary 2800}]
-      employees-with-salaries-under-5k (filter #(< (:salary %) 5000) salaries) ; => '({:id 1, :salary 4000} {:id 3, :salary 2800})
-      ids-for-employees-with-salaries-under-5k (set (map :id employees-with-salaries-under-5k)) ; => #{1 3}
+      employees-with-salaries-under-5k (filter
+                                         (fn [a] (< (:salary a) 5000))
+                                         salaries) ; => '({:id 1, :salary 4000} {:id 3, :salary 2800})
+      ids-for-employees-with-salaries-under-5k (set (map :id employees-with-salaries-under-5k)) ; => (#{1 3} 2)
       ]
   (filter #(ids-for-employees-with-salaries-under-5k (:id %)) employees))
 
@@ -126,7 +129,7 @@ person ;=> {:email "foo@bar.com", :name "<your name here>"}
   (is (= [11 22 33] (conj [] 33))))
 
 (deftest list-tests
-  (is (= '("a" "b" "c") (conj '() "a"))))
+  (is (= '("a" "b" "c") (conj '("b" "c") "a"))))
 
 (deftest map-tests
   (is (= "foo" (get {} :name)))
@@ -135,25 +138,54 @@ person ;=> {:email "foo@bar.com", :name "<your name here>"}
 
 ;; define a vector with the elements '10', '"hi"', 'true' and ':barbar'
 
+[10 "hi" true :barbar]
+
 ;; define a _map_ with the key '1' is associated with the value '"hello"' and the key ':key'
 ;;   with the value '[13 7]'
+
+{1 "hello"
+ :key [13 7]}
 
 ;; use 'def' to define a _variable_ 'my-map' that refers to the map '{1 2}'.
 ;;   Use the 'assoc' function to add a new key and value to 'my-map'. What does
 ;;   the 'assoc' call return?  What is the value of 'my-map' after the call?
 
+(def my-map {1 2})
+(assoc my-map :id 3)
+my-map
+
 ;; use 'conj' to add a value to a vector
+
+(conj [1 2 3] 4)
 
 ;; use the function 'get' to get the second element from a vector
 
+(get [:a :b :c :d] 1)
+
 ;; use the function 'get' to get the value of a key from a map
+
+(get {:id 1} :id)
 
 ;; get the value of a key from a map using the map itself as a function
 
+({:id 1} :id)
+
 ;; get the value of a key from a map using a keyword as a function
 
+(:id {:id 1})
+
 ;; use the function 'get-in' to return the value ':treasure' from the value:
-{:description "cave"
- :crossroads [{:contents :monster}
-              nil
-              {:contents [:trinket :treasure]}]}
+(get-in
+  {:description "cave"
+   :crossroads [{:contents :monster}
+                nil
+                {:contents [:trinket :treasure]}]}
+
+  [:crossroads 2 :contents 1])
+
+(get-in
+  {:description "cave"
+   :crossroads [{:contents :monster}
+                nil
+                {:contents [:trinket :treasure]}]}
+  [:description])

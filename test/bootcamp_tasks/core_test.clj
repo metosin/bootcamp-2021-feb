@@ -1,4 +1,4 @@
-(ns bootcamp.core-test
+(ns bootcamp-tasks.core-test
   (:require [clojure.test :refer :all]
             [bootcamp.core :as sut]))
 

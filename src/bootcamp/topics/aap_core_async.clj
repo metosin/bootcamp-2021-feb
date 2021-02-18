@@ -264,7 +264,7 @@
 
 ; Inside go blocks, use "parking" functions >! and <!
 
-#_
+
     (let [c (async/chan)
           reader-log (logger :reader)
           writer-log (logger :writer)]
@@ -281,7 +281,6 @@
 ; Timeout channel:
 ; - channel that closes automatically after timeout
 
-#_
     (let [c      (async/chan)
           reader-log (logger :reader)
           writer-log (logger :writer)]

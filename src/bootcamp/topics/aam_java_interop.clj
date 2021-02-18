@@ -57,6 +57,13 @@
     (finally
       (println "That's it for exceptions"))))
 
+(try
+
+  (catch Exception e
+    ())
+  (finally
+    ()))
+
 ; stdout
 ;   Here we go...
 ;   Got exception: Oh no!

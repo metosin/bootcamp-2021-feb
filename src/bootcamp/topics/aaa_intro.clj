@@ -8,7 +8,8 @@
 ;;
 
 
-
+;; Panu: ymmärtäis perussyntaksin, osaisi lukea ja jopa kirjoittaa.
+;; Tero: Samoilla linjoilla
 
 
 
@@ -56,5 +57,5 @@
 ;; A word about development tools
 ;;
 ;; Available IDEs: Emacs+CIDER, IDEA+Cursive, vs code+Calva..
-;; Leiningen, shadow-cljs, (figwheel, deps)
-;; REPL
+;; Leiningen, shadow-cljs, (figwheel, deps.edn, boot)
+;; REPL, parinfer/paredit
